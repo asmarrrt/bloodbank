@@ -1,8 +1,15 @@
-FROM php:8.2-cli
+FROM php:8.2-apache
 
-WORKDIR /app
-COPY . .
+# Install mysqli & pdo_mysql
+RUN docker-php-ext-install mysqli pdo pdo_mysql
 
-EXPOSE 8080
+# Copy project
+COPY . /var/www/html/
 
-CMD php -S 0.0.0.0:$PORT
+# Set working dir
+WORKDIR /var/www/html
+
+# Expose port
+EXPOSE 80
+
+web: apache2-foreground
